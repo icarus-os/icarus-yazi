@@ -1,0 +1,3 @@
+[submodule "kangawa.yazi"]
+  path = flavors/kanagawa.yazi
+  url = git@github.com:dangooddd/kanagawa.yazi.git
