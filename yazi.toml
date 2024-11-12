@@ -7,3 +7,14 @@ show_symlink = true
 edit = [{ run = 'nvim "$@"', block = true }]
 play = [{ run = 'mpv "$@"', orphan = true, for = "unix" }]
 open = [{ run = 'xdg-open "$@"', desc = "Open" }]
+
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*"
+run  = "git"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*/"
+run  = "git"
