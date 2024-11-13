@@ -1,21 +1,63 @@
 #"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
+# File list.
 [manager]
 
 prepend_keymap = [
+  # keybinds
   { on = [
-    "<C-s>",
-  ], run = '''shell "$SHELL" --block --confirm''', desc = "Open shell here" },
+    "!",
+  ], run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
+
+  # movement
+  { on = "<C-k>", run = "arrow -1", desc = "Move cursor up 1 entry" },  # i promise this will make sense
+  { on = "<C-j>", run = "arrow 1", desc = "Move cursor down 1 entry" }, # i promise this will make sense
+
+  { on = "<Up>", run = "plugin smart-navigation --sync --args='jump -1 -1'", desc = "Go up" },
+  { on = "k", run = "plugin smart-navigation --sync --args='jump -1 -1'", desc = "Go up" },
+
+  { on = "<Down>", run = "plugin smart-navigation --sync --args='jump 1 1'", desc = "Go down" },
+  { on = "j", run = "plugin smart-navigation --sync --args='jump 1 1'", desc = "Go down" },
+
+  { on = "<Left>", run = "plugin smart-navigation --sync --args='left'", desc = "Go left" },
+  { on = "h", run = "plugin smart-navigation --sync --args='left'", desc = "Go left" },
+
+  { on = "<Right>", run = "plugin smart-navigation --sync --args='right'", desc = "Go right" },
+  { on = "l", run = "plugin smart-navigation --sync --args='right'", desc = "Go right" },
+
+  { on = "<S-Up>", run = "plugin smart-navigation --sync --args='jump -5 -50'", desc = "Jump upward" },
+  { on = "<S-Down>", run = "plugin smart-navigation --sync --args='jump 5 50'", desc = "Jump downward" },
+
+  { on = "<PageUp>", run = "plugin smart-navigation --sync --args='jump -50% -100'", desc = "Jump up half a page" },
+  { on = "<PageDown>", run = "plugin smart-navigation --sync --args='jump 50% 100'", desc = "Jump down half a page" },
+
+  { on = "<Enter>", run = "plugin smart-navigation --sync --args='open'", desc = "Open selected files" },
+
+  # previews
+  { on = "K", run = "seek -5", desc = "Seek up 5 units in the preview" },
+  { on = "J", run = "seek 5", desc = "Seek down 5 units in the preview" },
+  { on = "T", run = "plugin --sync hide-preview", desc = "Hide or show the preview" },
+
+  { on = "A", run = "create --dir", desc = "Create a dir" },
+
+  # diff
+  { on = "<C-d>", run = "plugin diff", desc = "Diff the selected with the hovered file" },
+  # TODO: make it so that <C-D> opens up this diff in neovim with the git delta view
+  # and optionally has a terminal view open that shows the deltas w/ the `delta` command
+
+  # compression
   { on = [
     "c",
     "a",
   ], run = "plugin compress", desc = "Archive selected files" },
-  { on = "<C-u>", run = "seek -5", desc = "Seek up 5 units in the preview" },
-  { on = "<C-d>", run = "seek 5", desc = "Seek down 5 units in the preview" },
-  { on = "K", run = "arrow -50%", desc = "Move cursor up half page" },
-  { on = "J", run = "arrow 50%", desc = "Move cursor down half page" },
-  { on = "<A-k>", run = "arrow -5", desc = "Move cursor up half page" },
-  { on = "<A-j>", run = "arrow 5", desc = "Move cursor down half page" },
+
+  # chmod
+  { on = [
+    "c",
+    "m",
+  ], run = "plugin chmod", desc = "chmod on selected files" },
+
+  # filtering
   { on = [
     "f",
     "g",
@@ -36,22 +78,22 @@ prepend_keymap = [
     "f",
     "F",
   ], run = "plugin smart-filter", desc = "Smart Filter" },
+
   { on = [
     "s",
   ], run = "plugin searchjump", desc = "searchjump mode" },
   { on = "S", run = "search fd", desc = "Search files by name using fd" },
-  { on = [
-    "T",
-  ], run = "plugin --sync hide-preview", desc = "Hide or show the preview" },
+
   { on = [
     "y",
   ], run = [
     '''shell 'for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list' --confirm''',
     "yank",
   ], desc = "yank files and copy to clipboard" },
-  { on = "A", run = "create --dir", desc = "Create a dir" },
-]
+] # Prepend overrides the default keybindings
 
+# Append does not override the default keybindings and instead act as fallbacks
+# it has lower priority than the default keybindings
 append_keymap = [
   { on = [
     "e",
@@ -85,13 +127,23 @@ append_keymap = [
   ], run = "cd ~/Documents/obsidian-vaults", desc = "Go to the obsidian directory" },
 ]
 
+# Task manager.
+#[tasks]
+
+# Select component. e.g. "open with" for files.
+#[select]
+
+# Input component. e.g. create, rename, etc.
 [input]
 
 prepend_keymap = [{ on = ["<Esc>"], run = "close", desc = "Cancel input" }]
 
+# Completion component. e.g. "cd" path completion.
 [completion]
 prepend_keymap = [
   { on = "<C-k>", run = "arrow -1", desc = "Move cursor up" },
   { on = "<C-j>", run = "arrow 1", desc = "Move cursor down" },
 ]
 
+# Help menu.
+#[help]
