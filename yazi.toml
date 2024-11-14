@@ -1,5 +1,5 @@
 [manager]
-ratio = [1, 4, 3]  # In eighths: [parent, current, preview]
+ratio = [1, 4, 3]   # In eighths: [parent, current, preview]
 show_hidden = true
 show_symlink = true
 
@@ -9,12 +9,10 @@ play = [{ run = 'mpv "$@"', orphan = true, for = "unix" }]
 open = [{ run = 'xdg-open "$@"', desc = "Open" }]
 
 
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*"
-run  = "git"
+[plugin]
+prepend_fetchers = [
+  { id = "git", name = "*", run = "git" },
+  { id = "git", name = "*/", run = "git" },
+]
 
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*/"
-run  = "git"
+prepend_previewers = [{ name = "*.md", run = "glow" }]

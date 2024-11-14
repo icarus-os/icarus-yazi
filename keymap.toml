@@ -3,13 +3,14 @@
 # File list.
 [manager]
 
+# Prepend overrides the default keybindings
 prepend_keymap = [
-  # keybinds
+  # Dropping to the shell
   { on = [
     "!",
   ], run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
 
-  # movement
+  # movement (regular and preview)
   { on = "<C-k>", run = "arrow -1", desc = "Move cursor up 1 entry" },  # i promise this will make sense
   { on = "<C-j>", run = "arrow 1", desc = "Move cursor down 1 entry" }, # i promise this will make sense
 
@@ -36,7 +37,7 @@ prepend_keymap = [
   # FOR HIDING PREVIEW
   { on = "B", run = "plugin smart-navigation --sync --args='togglepreviewvisibility'", desc = "Hide or show the preview" },
 
-  # previews
+  # preview-only movement
   { on = "K", run = "seek -5", desc = "Seek up 5 units in the preview" },
   { on = "J", run = "seek 5", desc = "Seek down 5 units in the preview" },
 
@@ -72,27 +73,26 @@ prepend_keymap = [
     "f",
     "n",
   ], run = "plugin fg --args='fzf'", desc = "find file by filename" },
+
   { on = [
     "f",
     "f",
   ], run = "filter --smart", desc = "Filter files" },
-  { on = [
-    "f",
-    "F",
-  ], run = "plugin smart-filter", desc = "Smart Filter" },
+  { on = "F", run = "plugin smart-filter", desc = "Smart Filter" }, # continuous filtering, automatically enter unique directory, open file on submitting.
 
   { on = [
     "s",
   ], run = "plugin searchjump", desc = "searchjump mode" },
   { on = "S", run = "search fd", desc = "Search files by name using fd" },
 
+  # copy/yank
   { on = [
     "y",
   ], run = [
     '''shell 'for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list' --confirm''',
     "yank",
   ], desc = "yank files and copy to clipboard" },
-] # Prepend overrides the default keybindings
+]
 
 # Append does not override the default keybindings and instead act as fallbacks
 # it has lower priority than the default keybindings
